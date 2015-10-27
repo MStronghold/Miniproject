@@ -7,6 +7,10 @@ class Login():
 
     @classmethod
     def gebruikersnaam_bestaat(cls, gebruikersnaam):
+        """
+        :param gebruikersnaam: gebruikersnaam (string)
+        :return: BezoekerInfo.BezoekerInfo object als de gebruiker bestaat. False als de gebruiker niet bestaat.
+        """
         if type(gebruikersnaam) is not str:
             raise TypeError("gebruikersnaam moet een string zijn.")
         elif len(gebruikersnaam) == 0:
@@ -19,6 +23,10 @@ class Login():
 
     @classmethod
     def email_bestaat(cls, email):
+        """
+        :param email: email (string)
+        :return: BezoekerInfo.BezoekerInfo object als het mailadres bestaat. False als het mailadres niet bestaat.
+        """
         if type(email) is not str:
             raise TypeError("email moet een string zijn.")
         elif len(email) == 0:
@@ -37,7 +45,6 @@ class Login():
         :param wachtwoord: Wachtwoord (string)
         :return: BezoekerInfo object als de gebruiker successvol is aangemaakt, False als het niet is gelukt.
         """
-
         if type(gebruikersnaam) is not str:
             raise TypeError("gebruikersnaam moet een string zijn.")
         elif len(gebruikersnaam) == 0:
@@ -62,6 +69,11 @@ class Login():
 
     @classmethod
     def check_gebruiker(cls, gebruikersnaam, wachtwoord):
+        """
+        :param gebruikersnaam: gebruikersnaam (string)
+        :param wachtwoord: wachtwoord (string)
+        :return:
+        """
         for i in cls.gebruikers:
             if i.get_gebruikersnaam() == gebruikersnaam and i.get_wachtwoord() == wachtwoord:
                 return i
@@ -69,11 +81,17 @@ class Login():
 
     @classmethod
     def zoek_email(cls, gebruikersnaam):
+        """
+        :param gebruikersnaam: gebruikersnaam (string)
+        :return: Mailadres (string) als het mailadres gevonden is, False als het niet gevonden is.
+        """
         for i in cls.gebruikers:
             if i.get_gebruikersnaam() == gebruikersnaam:
                 return i.get_email()
         return False
 
 # Voorbeeld:
-# Login.nieuwe_gebruiker("username", "mail", "password")
-# Login.check_gebruiker("username", "password")
+# Login.nieuwe_gebruiker("testgebruiker", "mijnmail@example.com", "123456")
+# Login.nieuwe_gebruiker("gebruikertest", "mail2@example.com", "654321")
+# print(Login.zoek_email("gebruikertest"))
+
