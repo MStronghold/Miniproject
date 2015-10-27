@@ -1,27 +1,27 @@
-import urllib.request
+
+# Library's
 import time
-
-
-
-
-
-def docstringtest():
-    """
-    test docstring
-    :return:
-    """
-    print('hallo')
-
+import urllib.request
+import xml.etree.ElementTree as etree
 
 
 def API(x):
-    url = 'http://www.filmtotaal.nl/api/filmsoptv.xml?apikey=b7w5qxk8dqtvbntnx5uns434fhww6878'
-    tijd = time.strftime('%d/%m/%y')
-    url += '&dag=' + str(tijd)
-    url += '&sorteer=' + x
+    """
+    0=alle films
+    1=filmtips
+    2=film vd dag
+    :return:
+    """
+    if type(x) is not int:
+        raise TypeError('API(x) x is not int')
+    elif x < 0 or x > 2:
+        raise AttributeError('API(x) Parameter out of bounds')
+    else:
+        url = 'http://www.filmtotaal.nl/api/filmsoptv.xml?apikey=b7w5qxk8dqtvbntnx5uns434fhww6878'
+        tijd = str.replace(time.strftime('%d/%m/%Y'), '/', '-')
+        url += '&dag=' + str(tijd)
+        url += '&sorteer=' + str(x)
+        print(url)
+    return urllib.request.urlopen(url).readlines()
 
-
-url = urllib.request.urlopen('http://www.filmtotaal.nl/api/filmsoptv.xml?apikey=b7w5qxk8dqtvbntnx5uns434fhww6878&dag=27-10-2015&sorteer=0')
-bestand = open('lucasklad', 'a')
-bestand.write(str(url))
-bestand.close()
+print(API(1))
