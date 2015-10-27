@@ -22,4 +22,6 @@ def API(x):
     return urllib.request.urlopen(url)
 
 
+
+with
 print(API(2))
