@@ -1,4 +1,9 @@
 import urllib.request
+import time
+
+
+
+
 
 def docstringtest():
     """
@@ -9,7 +14,11 @@ def docstringtest():
 
 
 
-
+def API(x):
+    url = 'http://www.filmtotaal.nl/api/filmsoptv.xml?apikey=b7w5qxk8dqtvbntnx5uns434fhww6878'
+    tijd = time.strftime('%d/%m/%y')
+    url += '&dag=' + str(tijd)
+    url += '&sorteer=' + x
 
 
 
