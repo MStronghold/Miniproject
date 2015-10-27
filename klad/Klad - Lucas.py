@@ -2,7 +2,9 @@
 # Library's
 import time
 import urllib.request
-import xml.etree.ElementTree as etree
+import xml import etree
+
+
 
 
 def API(x):
@@ -22,6 +24,9 @@ def API(x):
         url += '&dag=' + str(tijd)
         url += '&sorteer=' + str(x)
         print(url)
-    return urllib.request.urlopen(url).readlines()
+    return etree.parse(url)
+
 
 print(API(1))
+
+

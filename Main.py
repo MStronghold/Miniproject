@@ -19,9 +19,9 @@ def API(x):
         tijd = time.strftime('%d/%m/%y')
         url += '&dag=' + str(tijd)
         url += '&sorteer=' + str(x)
-    return urllib.request.urlopen(url)
+        try:
+            return urllib.request.urlopen(url)
+        except:
+            return 'Kan geen verbinding maken.'
 
-
-
-with
 print(API(2))
