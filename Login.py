@@ -14,7 +14,7 @@ class Login():
 
         for i in cls.gebruikers:
             if i.get_gebruikersnaam() == gebruikersnaam:
-                return True
+                return i
         return False
 
     @classmethod
@@ -26,7 +26,7 @@ class Login():
 
         for i in cls.gebruikers:
             if i.get_email() == email:
-                return True
+                return i
         return False
 
     @classmethod
@@ -64,7 +64,14 @@ class Login():
     def check_gebruiker(cls, gebruikersnaam, wachtwoord):
         for i in cls.gebruikers:
             if i.get_gebruikersnaam() == gebruikersnaam and i.get_wachtwoord() == wachtwoord:
-                return True
+                return i
+        return False
+
+    @classmethod
+    def zoek_email(cls, gebruikersnaam):
+        for i in cls.gebruikers:
+            if i.get_gebruikersnaam() == gebruikersnaam:
+                return i.get_email()
         return False
 
 # Voorbeeld:
