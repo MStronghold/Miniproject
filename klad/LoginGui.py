@@ -24,11 +24,14 @@ class Login_Frame(Frame):
         self.entry_2.grid(row=1, column=1)
         self.entry_3.grid(row=2, column=1)
 
-        self.checkbox_1 = Checkbutton(self, text="Gebruiker", variable="var")
-        self.checkbox_1.grid(row=3,columnspan=1)
+        self.checked = False
 
-        self.checkbox_2 = Checkbutton(self, text="Aanbieder")
-        self.checkbox_2.grid(row=3,columnspan=2)
+        def test():
+            self.checked = not self.checked
+
+
+        self.checkbox_1 = Checkbutton(self, text="Aanbieder", command = test)
+        self.checkbox_1.grid(row=3,columnspan=1)
 
         self.button_1 = Button(self, text="Registreren", command = self.registreren)
         self.button_1.grid(row=4,columnspan=1)
@@ -53,6 +56,8 @@ class Login_Frame(Frame):
                 bericht.showinfo("Login info", "INGELOGD!")
             elif wachtwoord_database != wachtwoord:
                 bericht.showinfo("Login info", "Wachtwoord is niet geldig.")
+            else:
+                print("Login ongeldig.")
 
     def registreren(self):
         gebruikersnaam = self.entry_1.get()
@@ -60,7 +65,7 @@ class Login_Frame(Frame):
         email = self.entry_3.get()
 
 
-        nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord,True)
+        nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord, self.checked)
         login_status = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
 
         if login_status == 0:
