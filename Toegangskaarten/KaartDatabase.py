@@ -1,5 +1,6 @@
 import sqlite3
 import uuid
+import pickle
 from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
 
 
@@ -33,10 +34,33 @@ class KaartDatabase:
         if type(toegangsbewijs) is not _Toegangsbewijs.Toegangsbewijs:
             raise TypeError("toegangsbewijs moet een Toegangsbewijs object zijn.")
 
-        _toegangscode = str(toegangsbewijs.get_toegangscode())
         _gebruikers_id = str(toegangsbewijs.get_gebruiker_id())
+        _toegangscode = str(toegangsbewijs.get_toegangscode())
         _film_id = toegangsbewijs.get_film_id()
-        _starttijd = toegangsbewijs.get_starttijd()
+        _starttijd_obj = toegangsbewijs.get_starttijd()
+        _starttijd_bin = pickle.dumps(_starttijd_obj)
+        _starttijd_bin_str = ""
+        for byte in _starttijd_bin:
+            if _starttijd_bin_str == "":
+                _starttijd_bin_str = str(byte)
+            else:
+                _starttijd_bin_str += "///" + str(byte)
+
+        _query = "INSERT INTO kaarten (gebruikerid,toegangscode,filmid,starttijd) VALUES ('" + _gebruikers_id + "','" + _toegangscode + "','" + _film_id + "','" + _starttijd_bin_str + "')"
+        _database_connectie = cls.__verbind_met_database()
+
+        _gelukt = None
+
+        try:
+            _database_connectie.cursor().execute(_query)
+            _gelukt = True
+        except:
+            _gelukt = False
+        finally:
+            _database_connectie.commit()
+            _database_connectie.close()
+
+        return _gelukt
 
     @classmethod
     def kaart_opvragen(cls, toegangscode):
@@ -48,6 +72,14 @@ class KaartDatabase:
             raise TypeError("toegangscode moet een uuid.UUID object zijn of een string.")
 
         _code = str(toegangscode)
+
+        # s = dmp_str.split("///")
+        # b = bytearray()
+        #
+        # for byte in s:
+        #     b.append(int(byte))
+        #
+        # now2 = pickle.loads(b)
 
     @classmethod
     def kaarten_opvragen_gebruiker(cls, gebruiker_id):
