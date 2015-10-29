@@ -50,7 +50,7 @@ class Login_Frame(Frame):
         else:
             wachtwoord_database = gebruiker.get_wachtwoord()
             if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
-                bericht.showinfo("Login info", "INGELOGD")
+                bericht.showinfo("Login info", "INGELOGD!")
             elif wachtwoord_database != wachtwoord:
                 bericht.showinfo("Login info", "Wachtwoord is niet geldig.")
 
