@@ -49,7 +49,7 @@ class KaartDatabase:
         return _datetime_bin_str
 
     @classmethod
-    def __string_to_datetime(self, datetime_str):
+    def __string_to_datetime(cls, datetime_str):
         """
         :param datetime_str: string
         :return: datetime object of False als het niet gelukt is.
