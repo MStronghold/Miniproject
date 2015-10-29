@@ -1,5 +1,6 @@
 import sqlite3
 import uuid
+import datetime
 import pickle
 from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
 
@@ -13,7 +14,10 @@ class KaartDatabase:
         try:
             _database_connectie = sqlite3.connect(".\Toegangskaarten\Kaarten.db")
         except sqlite3.OperationalError:
-            _database_connectie = sqlite3.connect("Kaarten.db")
+            try:
+                _database_connectie = sqlite3.connect("..\Toegangskaarten\Kaarten.db")
+            except sqlite3.OperationalError:
+                _database_connectie = sqlite3.connect("Kaarten.db")
 
         _cursor = _database_connectie.cursor()
 
@@ -24,6 +28,50 @@ class KaartDatabase:
             _database_connectie.commit()
 
         return _database_connectie
+
+    @classmethod
+    def __datetime_to_string(cls, datetime_obj):
+        """
+        :param datetime_obj: datetime.datetime object
+        :return: string
+        """
+        if type(datetime_obj) is not datetime.datetime:
+            raise TypeError("datetime_obj moet een datetime object zijn.")
+
+        _datetime_bin = pickle.dumps(datetime_obj)
+        _datetime_bin_str = ""
+        for byte in _datetime_bin:
+            if _datetime_bin_str == "":
+                _datetime_bin_str = str(byte)
+            else:
+                _datetime_bin_str += "///" + str(byte)
+
+        return _datetime_bin_str
+
+    @classmethod
+    def __string_to_datetime(self, datetime_str):
+        """
+        :param datetime_str: string
+        :return: datetime object of False als het niet gelukt is.
+        """
+
+        if type(datetime_str) is not datetime.datetime:
+            raise TypeError("datetime_str moet een string zijn.")
+
+        _datetime_bin_str_list = datetime_str.split("///")
+        _datetime_bin = bytearray()
+
+        for byte in _datetime_bin_str_list:
+            _datetime_bin.append(int(byte))
+
+        _datetime_obj = None
+
+        try:
+            _datetime_obj = pickle.loads(_datetime_bin)
+        except BaseException:
+            return False
+
+        return _datetime_obj if type(_datetime_obj) == datetime.datetime else False
 
     @classmethod
     def kaart_opslaan(cls, toegangsbewijs, forceer=False):
@@ -45,14 +93,7 @@ class KaartDatabase:
 
         _gebruikers_id = str(toegangsbewijs.get_gebruiker_id())
         _film_id = toegangsbewijs.get_film_id()
-        _starttijd_obj = toegangsbewijs.get_starttijd()
-        _starttijd_bin = pickle.dumps(_starttijd_obj)
-        _starttijd_bin_str = ""
-        for byte in _starttijd_bin:
-            if _starttijd_bin_str == "":
-                _starttijd_bin_str = str(byte)
-            else:
-                _starttijd_bin_str += "///" + str(byte)
+        _starttijd_bin_str = cls.__datetime_to_string(toegangsbewijs.get_starttijd())
 
         _query = "INSERT INTO kaarten (toegangscode,gebruikerid,filmid,starttijd) VALUES ('" + _toegangscode + "','" + _gebruikers_id + "','" + _film_id + "','" + _starttijd_bin_str + "')"
         _database_connectie = cls.__verbind_met_database()
@@ -83,30 +124,18 @@ class KaartDatabase:
         _toegangscode = ""
         _gebruikers_id = ""
         _film_id = ""
-        _starttijd_bin_str = ""
+        _starttijd_obj = None
 
-        gevonden = False
         for row in _database_connectie.cursor().execute(_query):
             if row[0] == _code:
                 _toegangscode = row[0]
                 _gebruikers_id = row[1]
                 _film_id = row[2]
-                _starttijd_bin_str = row[3]
-                gevonden = True; break
+                _starttijd_obj = cls.__string_to_datetime(row[3])
+                break
 
-        if gevonden:
-            _starttijd_bin_str_list = _starttijd_bin_str.split("///")
-            _starttijd_bin = bytearray()
-            for byte in _starttijd_bin_str_list:
-                _starttijd_bin.append(int(byte))
-            _starttijd_obj = pickle.loads(_starttijd_bin)
-
-            _b = _Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(_toegangscode, _gebruikers_id, _film_id, _starttijd_obj)
-            _database_connectie.close()
-            return _b
-        else:
-            _database_connectie.close()
-            return False
+        _database_connectie.close()
+        return False if not _starttijd_obj else _Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(_toegangscode, _gebruikers_id, _film_id, _starttijd_obj)
 
     @classmethod
     def kaarten_opvragen_gebruiker(cls, gebruiker_id):
@@ -119,6 +148,18 @@ class KaartDatabase:
 
         _gebruiker_id = str(gebruiker_id)
 
+        _query = "SELECT * FROM kaarten"
+        _database_connectie = cls.__verbind_met_database()
+
+        _kaarten_gebruiker = []
+
+        for row in _database_connectie.cursor().execute(_query):
+            if row[1] == _gebruiker_id:
+                _kaarten_gebruiker.append(_Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(row[0], row[1], row[2], cls.__string_to_datetime(row[3])))
+
+        _database_connectie.close()
+        return _kaarten_gebruiker if len(_kaarten_gebruiker) else bool(len(_kaarten_gebruiker))
+
     @classmethod
     def kaarten_opvragen_film(cls, film_id):
         """
@@ -127,6 +168,18 @@ class KaartDatabase:
         """
         if type(film_id) is not str:
             raise TypeError("film_id moet een string zijn.")
+
+        _query = "SELECT * FROM kaarten"
+        _database_connectie = cls.__verbind_met_database()
+
+        _kaarten_film = []
+
+        for row in _database_connectie.cursor().execute(_query):
+            if row[2] == film_id:
+                _kaarten_film.append(_Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(row[0], row[1], row[2], cls.__string_to_datetime(row[3])))
+
+        _database_connectie.close()
+        return _kaarten_film if len(_kaarten_film) else bool(len(_kaarten_film))
 
     @classmethod
     def kaart_verwijderen(cls, toegangscode):
@@ -138,3 +191,21 @@ class KaartDatabase:
             raise TypeError("toegangscode moet een uuid.UUID object zijn of een string.")
 
         _toegangscode = str(toegangscode)
+
+        _query = "SELECT * FROM kaarten"
+        _query_delete = "DELETE FROM kaarten WHERE " + "toegangscode" + " = '" + _toegangscode + "'"
+        _database_connectie = cls.__verbind_met_database()
+
+        _in_database = False
+        for row in _database_connectie.cursor().execute(_query):
+            if row[0] == _toegangscode:
+                _in_database = True
+                break
+
+        if _in_database:
+            _database_connectie.cursor().execute(_query_delete)
+
+        _database_connectie.commit()
+        _database_connectie.close()
+
+        return _in_database
