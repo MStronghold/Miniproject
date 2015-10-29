@@ -25,11 +25,11 @@ class Login_Frame(Frame):
 
         self.checked = False
 
-        def test():
+        def checkbox():
             self.checked = not self.checked
 
 
-        self.checkbox_1 = Checkbutton(self, text="Aanbieder", command = test)
+        self.checkbox_1 = Checkbutton(self, text="Aanbieder", command = checkbox)
         self.checkbox_1.grid(row=3,columnspan=1)
 
         self.button_1 = Button(self, text="Registreren", command = self.registreren)
