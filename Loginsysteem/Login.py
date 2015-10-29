@@ -11,7 +11,7 @@ class Login:
     def gebruiker_opslaan(cls, gebruiker, forceer=False):
         """
         :param gebruiker: Gebruiker (BezoekerInfo object)
-        :return: 0 = Gebruiker aanmaken is niet gelukt.
+        :return: 0 = Gebruiker aanmaken is niet gelukt (ID is al in gebruik).
                  1 = gebruikersnaam al in gebruik.
                  2 = Email al in gebruik.
                  3 = De gebruiker is successvol aangemaakt of gewijzigd.
