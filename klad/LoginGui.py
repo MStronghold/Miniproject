@@ -63,8 +63,8 @@ class Login_Frame(Frame):
         wachtwoord = self.entry_2.get()
         email = self.entry_3.get()
 
-        if gebruikersnaam or wachtwoord or email == "":
-            bericht.showinfo("Login info", "Je bent een veld vergeten.")
+        if len(gebruikersnaam) or len(wachtwoord) or len(email) <= 3:
+            bericht.showinfo("Login info", "Minimaal 3 karakters per veld")
         else:
             nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord, self.checked)
             login_status = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
