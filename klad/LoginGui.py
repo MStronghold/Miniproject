@@ -12,7 +12,6 @@ class Login_Frame(Frame):
         self.label_2 = Label(self, text="Wachtwoord: ")
         self.label_3 = Label(self, text="E-mail: ")
 
-
         self.entry_1 = Entry(self)
         self.entry_2 = Entry(self, show="*")
         self.entry_3 = Entry(self)
@@ -34,10 +33,10 @@ class Login_Frame(Frame):
         self.checkbox_1.grid(row=3,columnspan=1)
 
         self.button_1 = Button(self, text="Registreren", command = self.registreren)
-        self.button_1.grid(row=4,columnspan=1)
+        self.button_1.grid(row=4)
 
         self.button_2 = Button(self, text="Aanmelden", command = self.aanmelden)
-        self.button_2.grid(row=4,columnspan=3)
+        self.button_2.grid(row=4, column=1)
 
         self.pack()
 
@@ -47,6 +46,7 @@ class Login_Frame(Frame):
         email = self.entry_3.get()
 
         gebruiker = Login.Login.gebruiker_opvragen(gebruikersnaam)
+        print(gebruiker)
 
         if gebruiker == False:
             bericht.showinfo("Login info", "Dit is geen bestaande gebruiker.")
@@ -79,4 +79,6 @@ class Login_Frame(Frame):
 
 root = Tk()
 lf = Login_Frame(root)
+frame = Frame(root, width=250)
+frame.pack()
 root.mainloop()
