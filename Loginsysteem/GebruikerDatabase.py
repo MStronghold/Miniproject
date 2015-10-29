@@ -41,17 +41,14 @@ class GebruikerDatabase:
         _query = "INSERT INTO gebruikers (ID,gebruikersnaam,email,wachtwoord,isaanbieder) VALUES ('" + _id + "','" + _gebruikersnaam + "','" + _email + "','" + _wachtwoord + "','" + _is_aanbieder + "')"
         _database_connectie = cls.__verbind_met_database()
 
-        _gelukt = None
         try:
             _database_connectie.cursor().execute(_query)
-            _gelukt = True
-        except:
-            _gelukt = False
+            return True
+        except sqlite3.OperationalError:
+            return False
         finally:
             _database_connectie.commit()
             _database_connectie.close()
-
-        return _gelukt
 
     @classmethod
     def gebruiker_opvragen(cls, id):

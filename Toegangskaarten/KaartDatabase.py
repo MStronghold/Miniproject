@@ -36,6 +36,13 @@ class KaartDatabase:
             raise TypeError("toegangsbewijs moet een Toegangsbewijs object zijn.")
 
         _toegangscode = str(toegangsbewijs.get_toegangscode())
+
+        if cls.kaart_opvragen(_toegangscode):
+            if forceer:
+                cls.kaart_verwijderen(_toegangscode)
+            else:
+                return False
+
         _gebruikers_id = str(toegangsbewijs.get_gebruiker_id())
         _film_id = toegangsbewijs.get_film_id()
         _starttijd_obj = toegangsbewijs.get_starttijd()
@@ -47,26 +54,17 @@ class KaartDatabase:
             else:
                 _starttijd_bin_str += "///" + str(byte)
 
-        if cls.kaart_opvragen(_toegangscode):
-            if forceer:
-                cls.kaart_verwijderen(_toegangscode)
-            else:
-                return False
-
         _query = "INSERT INTO kaarten (toegangscode,gebruikerid,filmid,starttijd) VALUES ('" + _toegangscode + "','" + _gebruikers_id + "','" + _film_id + "','" + _starttijd_bin_str + "')"
         _database_connectie = cls.__verbind_met_database()
-        _gelukt = None
 
         try:
             _database_connectie.cursor().execute(_query)
-            _gelukt = True
-        except:
-            _gelukt = False
+            return True
+        except sqlite3.OperationalError:
+            return False
         finally:
             _database_connectie.commit()
             _database_connectie.close()
-
-        return _gelukt
 
     @classmethod
     def kaart_opvragen(cls, toegangscode):
@@ -138,3 +136,5 @@ class KaartDatabase:
         """
         if type(toegangscode) is not uuid.UUID or type(toegangscode) is not str:
             raise TypeError("toegangscode moet een uuid.UUID object zijn of een string.")
+
+        _toegangscode = str(toegangscode)
