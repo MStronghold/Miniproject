@@ -46,14 +46,13 @@ class Login_Frame(Frame):
         email = self.entry_3.get()
 
         gebruiker = Login.Login.gebruiker_opvragen(gebruikersnaam)
-        print(gebruiker)
 
         if gebruiker == False:
             bericht.showinfo("Login info", "Dit is geen bestaande gebruiker.")
         else:
             wachtwoord_database = gebruiker.get_wachtwoord()
             if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
-                startscherm()
+                bericht.showinfo("Login info", "INGELOGD!")
             elif wachtwoord_database != wachtwoord:
                 bericht.showinfo("Login info", "Wachtwoord is niet geldig.")
             else:
@@ -64,66 +63,20 @@ class Login_Frame(Frame):
         wachtwoord = self.entry_2.get()
         email = self.entry_3.get()
 
+        if gebruikersnaam or wachtwoord or email == "":
+            bericht.showinfo("Login info", "Je bent een veld vergeten.")
+        else:
+            nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord, self.checked)
+            login_status = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
 
-        nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord, self.checked)
-        login_status = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
-
-        if login_status == 0:
-            bericht.showinfo("Login info", "Gebruiker aanmaken is niet gelukt.")
-        elif login_status == 1:
-            bericht.showinfo("Login info", "Gebruikersnaam is al in gebruik.")
-        elif login_status == 2:
-            bericht.showinfo("Login info", "E-mail is al in gebruik.")
-        elif login_status == 3:
-            bericht.showinfo("Login info", "Gebruiker succesvol aangemeld.")
-
-
-def startscherm():
-
-    def klik():
-        print("Klikken werkt!")
-
-    root = Tk()
-
-
-    menu = Menu(root)
-    root.config(menu=menu)
-
-    # ***** Main Menu *****
-
-    fileMenu = Menu(menu)
-    menu.add_cascade(label="File", menu=fileMenu)
-    fileMenu.add_command(label="New Project...", command=klik)
-    fileMenu.add_separator()
-    fileMenu.add_command(label="Exit", command=exit)
-
-
-
-
-    # ***** Toolbar *****
-
-    toolbar = Frame(root, bg="#A5110D")
-
-    bestelButton = Button(toolbar, text="Film bestellen", command=klik)
-    bestelButton.pack(side=LEFT, padx=5, pady=10)
-    bekijkButton = Button(toolbar, text="Film bekijken", command=klik)
-    bekijkButton.pack(side=LEFT, padx=5, pady=10)
-
-    toolbar.pack(side=TOP, fill=X)
-
-    # ***** Status Bar *****
-
-    status = Label(root, text="Statusbar...", bd=1, relief=SUNKEN, anchor=W)
-    status.pack(side=BOTTOM, fill=X)
-
-    photo = PhotoImage(file="Studio100.png")
-    label = Label(root, image=photo)
-    label.pack(fill=X)
-
-    frame = Frame(root, width=1280, height= 720, bg="#FFF")
-    frame.pack(fill=X)
-
-    root.mainloop()
+            if login_status == 0:
+                bericht.showinfo("Login info", "Gebruiker aanmaken is niet gelukt.")
+            elif login_status == 1:
+                bericht.showinfo("Login info", "Gebruikersnaam is al in gebruik.")
+            elif login_status == 2:
+                bericht.showinfo("Login info", "E-mail is al in gebruik.")
+            elif login_status == 3:
+                bericht.showinfo("Login info", "Gebruiker succesvol aangemeld.")
 
 root = Tk()
 lf = Login_Frame(root)
