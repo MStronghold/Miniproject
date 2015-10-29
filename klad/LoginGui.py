@@ -1,5 +1,5 @@
 from tkinter import *
-import tkinter.messagebox as tm
+import tkinter.messagebox as bericht
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
 
@@ -8,40 +8,69 @@ class LoginFrame(Frame):
     def __init__(self, master):
         super().__init__(master)
 
-        self.label_1 = Label(self, text="Gebruikersnaam  ")
-        self.label_2 = Label(self, text="Wachtwoord  ")
+        self.label_1 = Label(self, text="Gebruikersnaam: ")
+        self.label_2 = Label(self, text="Wachtwoord: ")
+        self.label_3 = Label(self, text="E-mail: ")
+
 
         self.entry_1 = Entry(self)
         self.entry_2 = Entry(self, show="*")
+        self.entry_3 = Entry(self)
 
         self.label_1.grid(row=0, sticky=E)
         self.label_2.grid(row=1, sticky=E)
+        self.label_3.grid(row=2, sticky=E)
         self.entry_1.grid(row=0, column=1)
         self.entry_2.grid(row=1, column=1)
+        self.entry_3.grid(row=2, column=1)
 
-        self.registreren = Button(self, text="Registreren", command = self.registreren)
-        self.registreren.grid(row=2,columnspan=1)
+        self.checkbox_1 = Checkbutton(self, text="Gebruiker", variable="var")
+        self.checkbox_1.grid(row=3,columnspan=1)
 
-        self.logbtn = Button(self, text="Login", command = self.login)
-        self.logbtn.grid(row=2,columnspan=2)
+        self.checkbox_2 = Checkbutton(self, text="Aanbieder")
+        self.checkbox_2.grid(row=3,columnspan=2)
+
+        self.button_1 = Button(self, text="Registreren", command = self.registreren)
+        self.button_1.grid(row=4,columnspan=1)
+
+        self.button_2 = Button(self, text="Aanmelden", command = self.aanmelden)
+        self.button_2.grid(row=4,columnspan=3)
 
         self.pack()
 
-    def login(self):
-        username = self.entry_1.get()
-        password = self.entry_2.get()
+    def aanmelden(self):
+        gebruikersnaam = self.entry_1.get()
+        wachtwoord = self.entry_2.get()
+        email = self.entry_3.get()
 
+        gebruiker = Login.Login.gebruiker_opvragen(gebruikersnaam)
 
+        if gebruiker == False:
+            bericht.showinfo("Login info", "Dit is geen bestaande gebruiker.")
+        else:
+            wachtwoord_database = gebruiker.get_wachtwoord()
+            if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
+                bericht.showinfo("Login info", "INGELOGD")
+            elif wachtwoord_database != wachtwoord:
+                bericht.showinfo("Login info", "Wachtwoord is niet geldig.")
 
     def registreren(self):
-        username = self.entry_1.get()
-        password = self.entry_2.get()
+        gebruikersnaam = self.entry_1.get()
+        wachtwoord = self.entry_2.get()
+        email = self.entry_3.get()
 
-        g = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd("Gebruiker1", "Email1", "Wachtwoord1")
-        Login.Login.gebruiker_opslaan(g)
 
-        tm.showinfo("Gebruiker is aangemaakt.")
+        g = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord,True)
+        loginstatus = Login.Login.gebruiker_opslaan(g)
 
+        if loginstatus == 0:
+            bericht.showinfo("Login info", "Gebruiker aanmaken is niet gelukt.")
+        elif loginstatus == 1:
+            bericht.showinfo("Login info", "Gebruikersnaam is al in gebruik.")
+        elif loginstatus == 2:
+            bericht.showinfo("Login info", "E-mail is al in gebruik.")
+        elif loginstatus == 3:
+            bericht.showinfo("Login info", "Gebruiker succesvol aangemeld.")
 
 root = Tk()
 lf = LoginFrame(root)
