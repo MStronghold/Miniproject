@@ -18,7 +18,7 @@ class KaartDatabase:
         try:
             _cursor.execute("SELECT * FROM kaarten")
         except sqlite3.OperationalError:
-            _cursor.execute("CREATE TABLE kaarten(gebruikerid TEXT, toegangscode TEXT, filmid TEXT, starttijd TEXT, eindtijd TEXT)")
+            _cursor.execute("CREATE TABLE kaarten(gebruikerid TEXT, toegangscode TEXT, filmid TEXT, starttijd TEXT)")
             _database_connectie.commit()
 
         return _database_connectie
