@@ -1,4 +1,4 @@
-#Methode 1 test
+#XML Parser Methode 1 test
 import xmltodict
 
 def verwerk_xml():
@@ -10,7 +10,7 @@ stations_dict = verwerk_xml()
 print(stations_dict['catalog'],['book'],['author'])
 
 
-#Methode 2
+#XML Parser Methode 2
 import xml.etree.ElementTree as etree
 
 xmlD = etree.parse("test.xml")
