@@ -61,15 +61,15 @@ class LoginFrame(Frame):
 
 
         nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord,True)
-        loginstatus = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
+        login_status = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
 
-        if loginstatus == 0:
+        if login_status == 0:
             bericht.showinfo("Login info", "Gebruiker aanmaken is niet gelukt.")
-        elif loginstatus == 1:
+        elif login_status == 1:
             bericht.showinfo("Login info", "Gebruikersnaam is al in gebruik.")
-        elif loginstatus == 2:
+        elif login_status == 2:
             bericht.showinfo("Login info", "E-mail is al in gebruik.")
-        elif loginstatus == 3:
+        elif login_status == 3:
             bericht.showinfo("Login info", "Gebruiker succesvol aangemeld.")
 
 root = Tk()
