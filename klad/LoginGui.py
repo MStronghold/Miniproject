@@ -60,8 +60,8 @@ class LoginFrame(Frame):
         email = self.entry_3.get()
 
 
-        g = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord,True)
-        loginstatus = Login.Login.gebruiker_opslaan(g)
+        nieuwe_gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd(gebruikersnaam, email, wachtwoord,True)
+        loginstatus = Login.Login.gebruiker_opslaan(nieuwe_gebruiker)
 
         if loginstatus == 0:
             bericht.showinfo("Login info", "Gebruiker aanmaken is niet gelukt.")
