@@ -16,15 +16,15 @@ class Toegangsbewijs:
         """
         :param toegangscode: uuid.UUID
         :param gebruiker_id: Gebruiker_id (BezoekerInfo.get_bezoeker_id()) (uuid.UUID)
-        :param film_id: filmid van filmtotaal
+        :param film_id: filmid van imdb (str)
         :param starttijd: starttijd (datetime object)
         """
         if type(gebruiker_id) is not uuid.UUID:
             raise TypeError("gebruiker_id moet een uuid.UUID object zijn.")
         if type(toegangscode) is not uuid.UUID:
             raise TypeError("toegangscode moet een uuid.UUID object zijn.")
-        if type(film_id) is not int:
-            raise TypeError("film_id moet een int zijn.")
+        if type(film_id) is not str:
+            raise TypeError("film_id moet een str zijn.")
         if type(starttijd) is not datetime.datetime:
             raise TypeError("starttijd moet een datetime object zijn.")
 
@@ -36,7 +36,7 @@ class Toegangsbewijs:
     def get_toegangscode(self):
         return self.__toegangscode
 
-    def get_gebruiker(self):
+    def get_gebruiker_id(self):
         return self.__gebruiker_id
 
     def get_film_id(self):

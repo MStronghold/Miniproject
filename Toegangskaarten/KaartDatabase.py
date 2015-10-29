@@ -33,6 +33,10 @@ class KaartDatabase:
         if type(toegangsbewijs) is not _Toegangsbewijs.Toegangsbewijs:
             raise TypeError("toegangsbewijs moet een Toegangsbewijs object zijn.")
 
+        _toegangscode = str(toegangsbewijs.get_toegangscode())
+        _gebruikers_id = str(toegangsbewijs.get_gebruiker_id())
+        _film_id = toegangsbewijs.get_film_id()
+        _starttijd = toegangsbewijs.get_starttijd()
 
     @classmethod
     def kaart_opvragen(cls, toegangscode):
