@@ -20,7 +20,7 @@ class GebruikerDatabase:
         try:
             _cursor.execute("SELECT * FROM gebruikers")
         except sqlite3.OperationalError:
-            _cursor.execute("CREATE TABLE gebruikers(ID TEXT, gebruikersnaam TEXT, email TEXT, wachtwoord TEXT)")
+            _cursor.execute("CREATE TABLE gebruikers(ID TEXT, gebruikersnaam TEXT, email TEXT, wachtwoord TEXT, isaanbieder TEXT)")
             _database_connectie.commit()
 
         return _database_connectie
@@ -34,11 +34,12 @@ class GebruikerDatabase:
         _gebruikersnaam = gebruiker.get_gebruikersnaam()
         _email = gebruiker.get_email()
         _wachtwoord = gebruiker.get_wachtwoord()
+        _is_aanbieder = str(int(gebruiker.get_is_aanbieder()))
 
         if cls.gebruiker_opvragen(_id):
             cls.gebruiker_verwijderen(_id, _type="ID")
 
-        _query = "INSERT INTO gebruikers (ID,gebruikersnaam,email,wachtwoord) VALUES ('" + _id + "','" + _gebruikersnaam + "','" + _email + "','" + _wachtwoord + "')"
+        _query = "INSERT INTO gebruikers (ID,gebruikersnaam,email,wachtwoord, isaanbieder) VALUES ('" + _id + "','" + _gebruikersnaam + "','" + _email + "','" + _wachtwoord + "','" + _is_aanbieder + "')"
         _database_connectie = cls.__verbind_met_database()
 
         _gelukt = None
@@ -64,7 +65,7 @@ class GebruikerDatabase:
         _id = str(id)
         for row in _database_connectie.cursor().execute(_query):
             if row[0] == _id or row[1] == _id or row[2] == _id:
-                return _BezoekerInfo.BezoekerInfo.nieuw_bezoeker_str(row[0], row[1], row[2], row[3])
+                return _BezoekerInfo.BezoekerInfo.nieuw_bezoeker_str(row[0], row[1], row[2], row[3], bool(int(row[4])))
         return False
 
     @classmethod
