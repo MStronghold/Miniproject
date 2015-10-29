@@ -26,7 +26,7 @@ class Toegangsbewijs:
         if type(film_id) is not int:
             raise TypeError("film_id moet een int zijn.")
         if type(starttijd) is not datetime.datetime:
-            raise TypeError("starttijd een datetime object zijn.")
+            raise TypeError("starttijd moet een datetime object zijn.")
 
         self.__gebruiker_id = gebruiker_id
         self.__toegangscode = toegangscode
