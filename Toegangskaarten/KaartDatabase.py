@@ -1,6 +1,7 @@
 import sqlite3
 import uuid
-from Toegangskaarten import Toegangsbewijs
+from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
+
 
 class KaartDatabase:
     @classmethod
@@ -29,8 +30,9 @@ class KaartDatabase:
         :param toegangsbewijs: Toegangsbewijs object
         :return: True = gelukt, False = niet gelukt
         """
-        if type(toegangsbewijs) is not Toegangsbewijs.Toegangsbewijs:
+        if type(toegangsbewijs) is not _Toegangsbewijs.Toegangsbewijs:
             raise TypeError("toegangsbewijs moet een Toegangsbewijs object zijn.")
+
 
     @classmethod
     def kaart_opvragen(cls, toegangscode):
