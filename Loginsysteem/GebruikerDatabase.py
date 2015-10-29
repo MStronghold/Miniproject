@@ -4,7 +4,6 @@ from Loginsysteem import BezoekerInfo as _BezoekerInfo
 
 
 class GebruikerDatabase:
-
     @classmethod
     def __verbind_met_database(cls):
         """
