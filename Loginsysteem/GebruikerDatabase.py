@@ -64,7 +64,10 @@ class GebruikerDatabase:
         _id = str(id)
         for row in _database_connectie.cursor().execute(_query):
             if row[0] == _id or row[1] == _id or row[2] == _id:
-                return _BezoekerInfo.BezoekerInfo.nieuw_bezoeker_str(row[0], row[1], row[2], row[3], bool(int(row[4])))
+                _b = _BezoekerInfo.BezoekerInfo.nieuw_bezoeker_str(row[0], row[1], row[2], row[3], bool(int(row[4])))
+                _database_connectie.close()
+                return _b
+        _database_connectie.close()
         return False
 
     @classmethod

@@ -103,8 +103,11 @@ class KaartDatabase:
                 _starttijd_bin.append(int(byte))
             _starttijd_obj = pickle.loads(_starttijd_bin)
 
-            return _Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(_toegangscode, _gebruikers_id, _film_id, _starttijd_obj)
+            _b = _Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(_toegangscode, _gebruikers_id, _film_id, _starttijd_obj)
+            _database_connectie.close()
+            return _b
         else:
+            _database_connectie.close()
             return False
 
     @classmethod
