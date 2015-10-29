@@ -2,10 +2,7 @@
 # Library's
 import time
 import urllib.request
-import xml import etree
-
-
-
+import xml.etree.ElementTree as ET
 
 def API(x):
     """
@@ -20,13 +17,29 @@ def API(x):
         raise AttributeError('API(x) Parameter out of bounds')
     else:
         url = 'http://www.filmtotaal.nl/api/filmsoptv.xml?apikey=b7w5qxk8dqtvbntnx5uns434fhww6878'
-        tijd = str.replace(time.strftime('%d/%m/%Y'), '/', '-')
+        tijd = time.strftime('%d-%m-%Y')
         url += '&dag=' + str(tijd)
         url += '&sorteer=' + str(x)
-        print(url)
-    return etree.parse(url)
+        try:
+            print(url)
+            return urllib.request.urlopen(url)
+        except:
+            return 'Kan geen verbinding maken.'
+
+with open('lucasklad-bronlatin.txt', 'r') as infile:
+    with open('lucassklad-doelutf.txt', 'w+') as outfile:
+        bron = infile.read()
+        doel = bytes(bron, 'iso-8859-1').decode('utf-8')
+        outfile.write(doel)
 
 
-print(API(1))
+
+# data = ET.parse(API(0))
+# with open('test.xml', 'w+') as bestand:
+#     for child in data.iter():
+#         datastring = ET.tostring(child).decode('iso-8859-1')
+#         datastring.encode('utf-8')
+#         bestand.write(str(datastring) + '\n')
 
 
+# datastring = ET.tostring(child).decode()

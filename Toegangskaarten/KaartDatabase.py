@@ -1,6 +1,7 @@
 import sqlite3
 import uuid
-from Toegangskaarten import Toegangsbewijs
+from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
+
 
 class KaartDatabase:
     @classmethod
@@ -18,7 +19,7 @@ class KaartDatabase:
         try:
             _cursor.execute("SELECT * FROM kaarten")
         except sqlite3.OperationalError:
-            _cursor.execute("CREATE TABLE kaarten(gebruikerid TEXT, toegangscode TEXT, filmid TEXT, starttijd TEXT, eindtijd TEXT)")
+            _cursor.execute("CREATE TABLE kaarten(gebruikerid TEXT, toegangscode TEXT, filmid TEXT, starttijd TEXT)")
             _database_connectie.commit()
 
         return _database_connectie
@@ -29,8 +30,13 @@ class KaartDatabase:
         :param toegangsbewijs: Toegangsbewijs object
         :return: True = gelukt, False = niet gelukt
         """
-        if type(toegangsbewijs) is not Toegangsbewijs.Toegangsbewijs:
+        if type(toegangsbewijs) is not _Toegangsbewijs.Toegangsbewijs:
             raise TypeError("toegangsbewijs moet een Toegangsbewijs object zijn.")
+
+        _toegangscode = str(toegangsbewijs.get_toegangscode())
+        _gebruikers_id = str(toegangsbewijs.get_gebruiker_id())
+        _film_id = toegangsbewijs.get_film_id()
+        _starttijd = toegangsbewijs.get_starttijd()
 
     @classmethod
     def kaart_opvragen(cls, toegangscode):
