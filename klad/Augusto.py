@@ -38,6 +38,9 @@ class startscherm:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
         else:
             print(info)
+            for regel in info:
+                informatie = Label(root, text=regel + regel[], bg="white")
+                informatie.pack()
 
 
     # ***** Hoofdpagina *****
