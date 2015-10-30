@@ -5,12 +5,11 @@ import pickle
 from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
 
 
-
 class KaartDatabase:
     @classmethod
     def __verbind_met_database(cls):
         """
-        :return: sqlite3.Connection
+        :return: sqlite3.Connection, object waarmee er gelezen en geschreven kan worden naar de database.
         """
         try:
             _database_connectie = sqlite3.connect(".\Toegangskaarten\Kaarten.db")
@@ -33,15 +32,16 @@ class KaartDatabase:
     @classmethod
     def __datetime_to_string(cls, datetime_obj):
         """
-        :param datetime_obj: datetime.datetime object
-        :return: string
+        Zet een datetime object om naar een string.
+        :param datetime_obj: datetime, het datetime object wat geencodeerd moet worden naar een string.
+        :return: string, de string waarin het datetime object geencodeerd in opgeslagen zit.
         """
         if type(datetime_obj) is not datetime.datetime:
             raise TypeError("datetime_obj moet een datetime object zijn.")
 
-        _datetime_bin = pickle.dumps(datetime_obj)
+        _datetime_bin = pickle.dumps(datetime_obj)          # Maak een bytes() van het datetime object.
         _datetime_bin_str = ""
-        for byte in _datetime_bin:
+        for byte in _datetime_bin:                          # Converteer het bytes() naar een string.
             if _datetime_bin_str == "":
                 _datetime_bin_str = str(byte)
             else:
@@ -52,50 +52,58 @@ class KaartDatabase:
     @classmethod
     def __string_to_datetime(cls, datetime_str):
         """
-        :param datetime_str: string
-        :return: datetime object of False als het niet gelukt is.
+        Zet een string om naar een datetime object.
+        :param datetime_str: str, de string waarin het datetime object geencodeerd in opgeslagen zit.
+        :return: bool of datetime, datetime = De string kon omgezet worden naar een datetime object
+                                   False = De string kon niet omgezet worden naar een datetime object.
         """
 
         if type(datetime_str) is not str:
             raise TypeError("datetime_str moet string zijn zijn.")
 
-        _datetime_bin_str_list = datetime_str.split("///")
+        _datetime_bin_str_list = datetime_str.split("///")  # Verdeel de string naar een list, de elementen zijn van het type str.
         _datetime_bin = bytearray()
 
-        for byte in _datetime_bin_str_list:
+        for byte in _datetime_bin_str_list:                 # Zet elk element in de lijst om naar een int, en stop dit in de bytearray().
             _datetime_bin.append(int(byte))
 
         _datetime_obj = None
 
         try:
-            _datetime_obj = pickle.loads(_datetime_bin)
+            _datetime_obj = pickle.loads(_datetime_bin)     # Decodeer de bytearray() terug naar het oorspronkelijke datetime object.
         except BaseException:
-            return False
+            _datetime_obj = False
 
-        return _datetime_obj if type(_datetime_obj) == datetime.datetime else False
+        return _datetime_obj
 
     @classmethod
     def kaart_opslaan(cls, toegangsbewijs, forceer=False):
         """
-        :param toegangsbewijs: Toegangsbewijs object
-        :return: False = Kaart opslaan is niet gelukt. (de toegangscode is al in gebruik)
-                 True = De kaart is successvol aangemaakt of gewijzigd.
+        Sla een kaart op in de database.
+        :param toegangsbewijs: Toegangsbewijs, het toegangsbewijs dat moet worden opgeslagen in de database.
+        :param forceer: bool, False = Als de gebruiker al bestaat in de database wordt er niks opgeslagen.
+                              True  = Als de gebruiker al bestaat in de database wordt deze overschreven.
+        :return: bool, False = Kaart opslaan is niet gelukt. (de toegangscode is al in gebruik)
+                       True = De kaart is successvol aangemaakt of gewijzigd.
         """
         if type(toegangsbewijs) is not _Toegangsbewijs.Toegangsbewijs:
             raise TypeError("toegangsbewijs moet een Toegangsbewijs object zijn.")
 
         _toegangscode = str(toegangsbewijs.get_toegangscode())
 
+        # Controleer of de gebruiker al in de database staat.
         if cls.kaart_opvragen(_toegangscode):
             if forceer:
                 cls.kaart_verwijderen(_toegangscode)
             else:
                 return False
 
+        # Unpack het toegangsbewijs object.
         _gebruikers_id = str(toegangsbewijs.get_gebruiker_id())
         _film_id = toegangsbewijs.get_film_id()
         _starttijd_bin_str = cls.__datetime_to_string(toegangsbewijs.get_starttijd())
 
+        # Voorbereiding om de toegangskaart op te slaan in de database.
         _query = "INSERT INTO kaarten (toegangscode,gebruikerid,filmid,starttijd) VALUES ('" + _toegangscode + "','" + _gebruikers_id + "','" + _film_id + "','" + _starttijd_bin_str + "')"
         _database_connectie = cls.__verbind_met_database()
 
@@ -111,12 +119,15 @@ class KaartDatabase:
     @classmethod
     def kaart_opvragen(cls, toegangscode):
         """
-        :param toegangscode: uuid.UUID object of string met het UUID.
-        :return: Toegangsbewijs object, of False als niets gevonden is.
+        Kaart opvragen uit de database.
+        :param toegangscode: uuid.UUID of str, het unieke ID van het toegangsbewijs.
+        :return: Toegangsbewijs of bool, Toegangsbewijs = de kaart is gevonden in de database.
+                                         False = de kaart is niet gevonden in de database.
         """
         if type(toegangscode) is not uuid.UUID and type(toegangscode) is not str:
             raise TypeError("toegangscode moet een uuid.UUID object zijn of een string.")
 
+        # Voorbereiding om de toegangskaart op te vragen uit de database.
         _query = "SELECT * FROM kaarten"
         _database_connectie = cls.__verbind_met_database()
 
@@ -127,6 +138,7 @@ class KaartDatabase:
         _film_id = ""
         _starttijd_obj = None
 
+        # Database doorzoeken naar het toegangsbewijs
         for row in _database_connectie.cursor().execute(_query):
             if row[0] == _code:
                 _toegangscode = row[0]
@@ -141,19 +153,23 @@ class KaartDatabase:
     @classmethod
     def kaarten_opvragen_gebruiker(cls, gebruiker_id):
         """
-        :param gebruiker_id: uuid.UUID object of string met het UUID.
-        :return: List met toegangskaarten bijbehorende aan het gebruiker_id, False als niets gevonden is.
+        Kaarten zoeken op gebruikersid.
+        :param gebruiker_id: uuid.UUID of str, het unieke ID van de gebruiker.
+        :return: List(Toegangsbewijs) of bool, List(Toegangsbewijs) = er zijn toegangsbewijzen gevonden.
+                                               False = er zijn geen toegangsbewijzen gevonden.
         """
         if type(gebruiker_id) is not uuid.UUID and type(gebruiker_id) is not str:
             raise TypeError("gebruiker_id moet een uuid.UUID object zijn of een string.")
 
         _gebruiker_id = str(gebruiker_id)
 
+        # Voorbereiding om de toegangskaarten op te vragen uit de database.
         _query = "SELECT * FROM kaarten"
         _database_connectie = cls.__verbind_met_database()
 
         _kaarten_gebruiker = []
 
+        # Zoek de toegangskaarten behorende aan het gebruiker_id
         for row in _database_connectie.cursor().execute(_query):
             if row[1] == _gebruiker_id:
                 _kaarten_gebruiker.append(_Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(row[0], row[1], row[2], cls.__string_to_datetime(row[3])))
@@ -164,17 +180,21 @@ class KaartDatabase:
     @classmethod
     def kaarten_opvragen_film(cls, film_id):
         """
-        :param film_id: Het id van de film (string)
-        :return: List met alle toegangskaarten uitgegeven voor de specifieke film_id.
+        Kaarten zoeken op film_id.
+        :param film_id: str, het IMDB id van de film.
+        :return: List(Toegangsbewijs) of bool, List(Toegangsbewijs) = er zijn toegangsbewijzen gevonden.
+                                               False = er zijn geen toegangsbewijzen gevonden.
         """
         if type(film_id) is not str:
             raise TypeError("film_id moet een string zijn.")
 
+        # Voorbereiding om de toegangskaarten op te vragen uit de database.
         _query = "SELECT * FROM kaarten"
         _database_connectie = cls.__verbind_met_database()
 
         _kaarten_film = []
 
+        # Zoek de toegangskaarten behorende aan het film_id
         for row in _database_connectie.cursor().execute(_query):
             if row[2] == film_id:
                 _kaarten_film.append(_Toegangsbewijs.Toegangsbewijs.nieuw_toegangsbewijs_str(row[0], row[1], row[2], cls.__string_to_datetime(row[3])))
@@ -185,18 +205,22 @@ class KaartDatabase:
     @classmethod
     def kaart_verwijderen(cls, toegangscode):
         """
-        :param toegangscode: uuid.UUID object of string met het UUID.
-        :return: True als de toegangskaart verwijderd is, False als de toegangskaart niet gevonden kon worden.
+        Kaarten verwijderen uit de database.
+        :param toegangscode: uuid.UUID of str, het unieke ID van het toegangsbewijs.
+        :return: bool, True = de toegangskaart is successvol verwijderd uit de database.
+                       False = de toegangskaart kon niet gevonden worden in de database.
         """
         if type(toegangscode) is not uuid.UUID and type(toegangscode) is not str:
             raise TypeError("toegangscode moet een uuid.UUID object zijn of een string.")
 
         _toegangscode = str(toegangscode)
 
+        # Voorbereiding om de toegangskaarten op te vragen uit de database, en te verwijderen.
         _query = "SELECT * FROM kaarten"
         _query_delete = "DELETE FROM kaarten WHERE " + "toegangscode" + " = '" + _toegangscode + "'"
         _database_connectie = cls.__verbind_met_database()
 
+        # Controleert of de toegangskaart wel voorkomt in de database.
         _in_database = False
         for row in _database_connectie.cursor().execute(_query):
             if row[0] == _toegangscode:
