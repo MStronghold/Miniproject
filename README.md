@@ -8,6 +8,7 @@ Deelnemers:
 * Johan de Graaf
 
 
+
 Dependencies: qrcode
 
 Doe het volgende om qrcode te installeren:
