@@ -48,14 +48,28 @@ class StartScherm(Frame):
         film = self.entry_1.get()
         info = API.APIrequest(film)
 
+        print(info)
+
         if "Movie not found!" in str(info):
             bericht.showerror("Film info", "Dit is geen bestaande film.")
         else:
             for regel in info.items():
-                informatie = Label(self._master, text=regel, bg="white")
-                informatie.pack(anchor=W)
-                verwijderdregels.append(informatie)
-
+                def labels(a):
+                    if a in regel:
+                        regelnetjes = str(regel).replace("(","").replace("'","").replace(")","").replace(",",":")
+                        informatie = Label(self._master, text=regelnetjes, bg="white",font=("Helvetica", 16))
+                        informatie.pack(anchor=W)
+                        verwijderdregels.append(informatie)
+                labels("Title")
+                labels("Actors")
+                labels("Plot")
+                labels("Director")
+                labels("Language")
+                labels("imdbRating")
+                labels("Released")
+                labels("Genre")
+                labels("Runtime")
+                labels("Year")
 
     # ***** Hoofdpagina *****
 
