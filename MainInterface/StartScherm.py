@@ -16,7 +16,7 @@ class StartScherm(Frame):
     # ***** Kijken of klikken werkt *****
 
     def klik(self):
-        print("gff")
+        print("ff")
 
     def leegmaken(self):
         try:
