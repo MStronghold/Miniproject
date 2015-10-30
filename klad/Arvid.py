@@ -1,17 +1,10 @@
-from tkinter import *
-def messageWindow():
-    win = Toplevel()
-    message = "This is the child window"
-    Label(win, text=message).pack()
-    Button(win, text='OK', command=win.destroy).pack()
-
 
 # ---------------------------------------- FIRST window ----------------------------------------
 from tkinter import *
 import tkinter.messagebox as bericht
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
-from klad
+from klad import Augusto
 
 class Login_Frame(Frame):
 
@@ -73,8 +66,8 @@ class Login_Frame(Frame):
         else:
             wachtwoord_database = gebruiker.get_wachtwoord()
             if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
-                messageWindow()
                 root.withdraw()
+                Augusto.startscherm(Tk())
             elif wachtwoord_database != wachtwoord:
                 bericht.showerror("Login", "Wachtwoord is onjuist.")
             else:
