@@ -1,17 +1,19 @@
 from tkinter import *
 import tkinter.messagebox as bericht
 from klad import API
-import uuid
 
 
 root = Tk()
 
 
-class startscherm:
+class StartScherm:
 
+    # ***** Kijken of klikken werkt *****
 
-    def klik(selfs):
+    def klik(self):
         print("klikken werkt!")
+
+    # ***** Film invoer deel *****
 
     def film_checken(self):
 
@@ -22,21 +24,25 @@ class startscherm:
             self.label_1.pack(side=TOP)
             self.entry_1.pack(side=TOP)
 
-            self.button_1 = Button(root, text="Zoeken", command=self.film_invoeren)
+            self.button_1 = Button(root, text="Zoeken", command=self.invoeren)
             self.button_1.pack(side=TOP, pady=4)
 
             self.knop_drukken += 1
 
-    def film_invoeren(self):
-        filmzoeken = self.entry_1.get()
+    def invoeren(self):
+        film = self.entry_1.get()
 
-        film = API.APIrequest(filmzoeken)
+        info = API.APIrequest(film)
 
-        if film == False:
+        if info['Response'] == ['False']:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
-        elif film == True:
+        else:
+            print(info)
+            for regel in info.items():
+                informatie = Label(root, text=regel, bg="white")
+                informatie.pack(anchor=W)
 
-
+    # ***** Hoofdpagina *****
 
     def __init__(self, master):
         frame = Frame(master)
@@ -49,21 +55,18 @@ class startscherm:
 
         # ***** Main Menu *****
 
-        fileMenu = Menu(menu)
-        menu.add_cascade(label="File", menu=fileMenu)
-        fileMenu.add_command(label="New Project...", command=self.klik)
-        fileMenu.add_separator()
-        fileMenu.add_command(label="Exit", command=exit)
-
-
-
+        filemenu = Menu(menu)
+        menu.add_cascade(label="File", menu=filemenu)
+        filemenu.add_command(label="New Project...", command=self.klik)
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=exit)
 
         # ***** Toolbar *****
 
         toolbar = Frame(root, bg="#A5110D")
 
-        bekijkButton = Button(toolbar, text="Film bekijken", command=self.film_checken)
-        bekijkButton.pack(side=LEFT, padx=5, pady=10)
+        bekijkbutton = Button(toolbar, text="Film bekijken", command=self.film_checken)
+        bekijkbutton.pack(side=LEFT, padx=5, pady=10)
 
         toolbar.pack(side=TOP, fill=X)
 
@@ -76,14 +79,6 @@ class startscherm:
     label = Label(root, image=photo)
     label.pack(fill=X)
 
-
-
-startscherm(root)
-
+StartScherm(root)
 
 root.mainloop()
-
-
-
-
-
