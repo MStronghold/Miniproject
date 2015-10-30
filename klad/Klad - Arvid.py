@@ -75,6 +75,7 @@ class Login_Frame(Frame):
             wachtwoord_database = gebruiker.get_wachtwoord()
             if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
                 messageWindow()
+                root.withdraw()
             elif wachtwoord_database != wachtwoord:
                 bericht.showerror("Login", "Wachtwoord is onjuist.")
             else:
