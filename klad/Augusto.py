@@ -34,10 +34,11 @@ class startscherm:
 
         info = API.APIrequest(film)
 
-        if info is False:
+        if info['Response'] == ['False']:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
-        elif info is True:
-            print(API.APIrequest(info))
+        else:
+            print(info)
+
 
     # ***** Hoofdpagina *****
 
