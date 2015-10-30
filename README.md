@@ -1,7 +1,7 @@
-Miniproject Programming Thuisbioscoop
+**Miniproject Programming Thuisbioscoop**
 
 
-Deelnemers:
+**Deelnemers:**
 * Lucas Schraven
 * Arvid Berends
 * Augusto Molenaar
@@ -9,15 +9,14 @@ Deelnemers:
 
 
 
-Dependencies: qrcode
+**Dependencies: qrcode**
 
 Doe het volgende om qrcode te installeren:
 
-1. Open de command prompt als administrator.
-2. Typ het volgende command in en druk op enter: pip install qrcode
+*1. Open de command prompt als administrator.*
+*2. Typ het volgende command in en druk op enter: pip install qrcode*
 
-Programma is ontworpen en getest in Python 3.4
 
-Project maakt gebruik van de Open Movie Data Base API, te vinden op:
+**Programma is ontworpen en getest in Python 3.4**
 
-http://www.omdbapi.com/
+**Project maakt gebruik van de Open Movie Data Base API, te vinden op: http://www.omdbapi.com/**
