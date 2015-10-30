@@ -10,7 +10,11 @@ class StartScherm:
     # ***** Kijken of klikken werkt *****
 
     def klik(self):
-        print("klikken werkt!")
+        print("gff")
+
+    def leegmaken(self):
+        for i in verwijderdregels:
+            i.destroy()
 
     # ***** Film invoer deel ******
 
@@ -29,17 +33,20 @@ class StartScherm:
             self.knop_drukken += 1
 
     def invoeren(self):
+        global informatie, verwijderdregels
+        self.leegmaken()
+        verwijderdregels = []
         film = self.entry_1.get()
-
         info = API.APIrequest(film)
 
         if info['Response'] == ['False']:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
         else:
-            print(info)
             for regel in info.items():
                 informatie = Label(toor, text=regel, bg="white")
                 informatie.pack(anchor=W)
+                verwijderdregels.append(informatie)
+
 
     # ***** Hoofdpagina *****
 
