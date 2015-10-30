@@ -16,7 +16,7 @@ class StartScherm(Frame):
     # ***** Kijken of klikken werkt *****
 
     def klik(self):
-        print("ff")
+        print("Het werkt!")
 
     def leegmaken(self):
         try:
@@ -47,8 +47,6 @@ class StartScherm(Frame):
         verwijderdregels = []
         film = self.entry_1.get()
         info = API.APIrequest(film)
-
-        print(info)
 
         if "Movie not found!" in str(info):
             bericht.showerror("Film info", "Dit is geen bestaande film.")
