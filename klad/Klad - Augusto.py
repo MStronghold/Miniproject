@@ -22,12 +22,12 @@ class startscherm:
             self.label_1.pack(side=TOP)
             self.entry_1.pack(side=TOP)
 
-            self.button_1 = Button(root, text="Zoeken", command=self.film_invoeren)
+            self.button_1 = Button(root, text="Zoeken", command=self.filminvoeren)
             self.button_1.pack(side=TOP, pady=4)
 
             self.knop_drukken += 1
 
-    def film_invoeren(self):
+    def filminvoeren(self):
         filmzoeken = self.entry_1.get()
 
         film = API.APIrequest(filmzoeken)
@@ -35,7 +35,7 @@ class startscherm:
         if film == False:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
         elif film == True:
-
+            print(APIrequest('robin hood'))
 
 
     def __init__(self, master):
