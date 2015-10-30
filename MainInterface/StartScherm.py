@@ -1,15 +1,23 @@
-from tkinter import *
 import tkinter.messagebox as bericht
-from klad import API
+from tkinter import *
+
+from API import API
+
+toor = Tk()
+
 
 class StartScherm:
 
     # ***** Kijken of klikken werkt *****
 
     def klik(self):
-        print("klikken werkt!")
+        print("gff")
 
-    # ***** Film invoer deel *****
+    def leegmaken(self):
+        for i in verwijderdregels:
+            i.destroy()
+
+    # ***** Film invoer deel ******
 
     def film_checken(self):
 
@@ -26,17 +34,20 @@ class StartScherm:
             self.knop_drukken += 1
 
     def invoeren(self):
+        global informatie, verwijderdregels
+        self.leegmaken()
+        verwijderdregels = []
         film = self.entry_1.get()
-
         info = API.APIrequest(film)
 
         if info['Response'] == ['False']:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
         else:
-            print(info)
             for regel in info.items():
                 informatie = Label(toor, text=regel, bg="white")
                 informatie.pack(anchor=W)
+                verwijderdregels.append(informatie)
+
 
     # ***** Hoofdpagina *****
 
@@ -74,3 +85,7 @@ class StartScherm:
     photo = PhotoImage(file="Studio100.png")
     label = Label(toor, image=photo)
     label.pack(fill=X)
+
+StartScherm(toor)
+
+toor.mainloop()
