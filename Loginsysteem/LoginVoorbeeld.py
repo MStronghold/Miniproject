@@ -1,6 +1,11 @@
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
+
 # Nieuwe gebruiker aanmaken
 g = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd("Gebruiker1", "Email1", "Wachtwoord1", True) # Laatste argument geeft aan of de gebruiker een aanbieder is. True = aanbieder, False = Gewone gebruiker. Dit argument is optioneel en standaard False.
 print(g.to_dict())

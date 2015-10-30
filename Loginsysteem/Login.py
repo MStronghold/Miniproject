@@ -2,6 +2,10 @@ import uuid
 from Loginsysteem import BezoekerInfo as _BezoekerInfo
 from Loginsysteem import GebruikerDatabase as _GebruikerDatabase
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
 
 class Login:
 

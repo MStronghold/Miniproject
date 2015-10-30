@@ -1,5 +1,9 @@
 import uuid
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
 
 class BezoekerInfo:
     @classmethod
