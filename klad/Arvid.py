@@ -11,6 +11,7 @@ from tkinter import *
 import tkinter.messagebox as bericht
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
+from klad
 
 class Login_Frame(Frame):
 
@@ -111,3 +112,5 @@ lf = Login_Frame(root)
 frame = Frame(root, width=250)
 frame.pack()
 root.mainloop()
+
+# ---------------------------------------- END FIRST window ----------------------------------------
