@@ -9,18 +9,23 @@ root = Tk()
 
 class startscherm:
 
+
     def klik(selfs):
         print("klikken werkt!")
 
     def code_checken(self):
-        self.label_1 = Label(root, text="Voer Uw toegangscode in:")
-        self.entry_1 = Entry(root)
 
-        self.label_1.pack(side=TOP)
-        self.entry_1.pack(side=TOP)
+        if self.knop_drukken == 0:
+            self.label_1 = Label(root, text="Voer Uw toegangscode in:")
+            self.entry_1 = Entry(root)
 
-        self.button_1 = Button(root, text="Voer in", command=self.code_invoeren)
-        self.button_1.pack(side=TOP, pady=4)
+            self.label_1.pack(side=TOP)
+            self.entry_1.pack(side=TOP)
+
+            self.button_1 = Button(root, text="Voer in", command=self.code_invoeren)
+            self.button_1.pack(side=TOP, pady=4)
+
+            self.knop_drukken += 1
 
     def code_invoeren(self):
         toegangscode = self.entry_1.get()
@@ -35,6 +40,8 @@ class startscherm:
     def __init__(self, master):
         frame = Frame(master)
         frame.pack()
+
+        self.knop_drukken = 0
 
         menu = Menu(root)
         root.config(menu=menu)
