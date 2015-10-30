@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter.messagebox as bericht
-from Toegangskaarten import KaartDatabase
+from klad import API
 import uuid
 
 
@@ -13,28 +13,27 @@ class startscherm:
     def klik(selfs):
         print("klikken werkt!")
 
-    def code_checken(self):
+    def film_checken(self):
 
         if self.knop_drukken == 0:
-            self.label_1 = Label(root, text="Voer Uw toegangscode in:")
+            self.label_1 = Label(root, text="Voer een titel in:")
             self.entry_1 = Entry(root)
 
             self.label_1.pack(side=TOP)
             self.entry_1.pack(side=TOP)
 
-            self.button_1 = Button(root, text="Voer in", command=self.code_invoeren)
+            self.button_1 = Button(root, text="Zoeken", command=self.film_invoeren)
             self.button_1.pack(side=TOP, pady=4)
 
             self.knop_drukken += 1
 
-    def code_invoeren(self):
-        toegangscode = self.entry_1.get()
+    def film_invoeren(self):
+        filmzoeken = self.entry_1.get()
 
-        code = KaartDatabase.KaartDatabase.kaart_opvragen(toegangscode)
+        film = API.APIrequest(filmzoeken)
 
-        if code == False:
-            bericht.showinfo("Toegangscode info", "Dit is geen bestaande toegangscode.")
-        elif code == True:
+        if film == False:
+            bericht.showinfo("Film info", "Dit is geen bestaande film.")
 
 
     def __init__(self, master):
@@ -61,9 +60,7 @@ class startscherm:
 
         toolbar = Frame(root, bg="#A5110D")
 
-        bestelButton = Button(toolbar, text="Film bestellen", command=self.klik)
-        bestelButton.pack(side=LEFT, padx=5, pady=10)
-        bekijkButton = Button(toolbar, text="Film bekijken", command=self.code_checken)
+        bekijkButton = Button(toolbar, text="Film bekijken", command=self.film_checken)
         bekijkButton.pack(side=LEFT, padx=5, pady=10)
 
         toolbar.pack(side=TOP, fill=X)
