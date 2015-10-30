@@ -43,8 +43,8 @@ class StartScherm:
         film = self.entry_1.get()
         info = API.APIrequest(film)
 
-        if info['Response'] == ['False']:
-            bericht.showinfo("Film info", "Dit is geen bestaande film.")
+        if "Movie not found!" in str(info):
+            bericht.showerror("Film info", "Dit is geen bestaande film.")
         else:
             for regel in info.items():
                 informatie = Label(toor, text=regel, bg="white")
