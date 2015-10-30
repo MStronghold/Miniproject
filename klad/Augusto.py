@@ -6,11 +6,11 @@ from klad import API
 root = Tk()
 
 
-class startscherm:
+class StartScherm:
 
     # ***** Kijken of klikken werkt *****
 
-    def klik(selfs):
+    def klik(self):
         print("klikken werkt!")
 
     # ***** Film invoer deel *****
@@ -38,10 +38,9 @@ class startscherm:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
         else:
             print(info)
-            for regel in info:
-                informatie = Label(root, text=regel + regel[], bg="white")
-                informatie.pack()
-
+            for regel in info.items():
+                informatie = Label(root, text=regel, bg="white")
+                informatie.pack(anchor=W)
 
     # ***** Hoofdpagina *****
 
@@ -80,6 +79,6 @@ class startscherm:
     label = Label(root, image=photo)
     label.pack(fill=X)
 
-startscherm(root)
+StartScherm(root)
 
 root.mainloop()
