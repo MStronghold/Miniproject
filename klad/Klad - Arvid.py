@@ -6,8 +6,6 @@ def messageWindow():
     Button(win, text='OK', command=win.destroy).pack()
 
 
-
-
 # ---------------------------------------- FIRST window ----------------------------------------
 from tkinter import *
 import tkinter.messagebox as bericht
