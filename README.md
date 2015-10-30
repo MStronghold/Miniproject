@@ -19,3 +19,5 @@ Doe het volgende om qrcode te installeren:
 **Programma is ontworpen en getest in Python 3.4**
 
 **Project maakt gebruik van de Open Movie Data Base API, te vinden op: http://www.omdbapi.com/**
+
+Het programma kan geopend worden door Main.py uit te voeren.
