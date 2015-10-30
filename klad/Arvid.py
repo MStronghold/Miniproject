@@ -1,10 +1,18 @@
+from tkinter import *
+def messageWindow():
+    # create child window
+    win = Toplevel()
+    # display message
+    message = "This is the child window"
+    Label(win, text=message).pack()
+    # quit child window and return to root window
+    # the button is optional here, simply use the corner x of the child window
+    Button(win, text='OK', command=win.destroy).pack()
 
-# ---------------------------------------- FIRST window ----------------------------------------
 from tkinter import *
 import tkinter.messagebox as bericht
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
-from klad import Augusto
 
 class Login_Frame(Frame):
 
@@ -67,7 +75,7 @@ class Login_Frame(Frame):
             wachtwoord_database = gebruiker.get_wachtwoord()
             if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
                 root.withdraw()
-                Augusto.startscherm(Tk())
+                messageWindow()
             elif wachtwoord_database != wachtwoord:
                 bericht.showerror("Login", "Wachtwoord is onjuist.")
             else:
@@ -105,5 +113,3 @@ lf = Login_Frame(root)
 frame = Frame(root, width=250)
 frame.pack()
 root.mainloop()
-
-# ---------------------------------------- END FIRST window ----------------------------------------
