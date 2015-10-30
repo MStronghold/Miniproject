@@ -34,6 +34,8 @@ class startscherm:
 
         if film == False:
             bericht.showinfo("Film info", "Dit is geen bestaande film.")
+        elif film == True:
+
 
 
     def __init__(self, master):
