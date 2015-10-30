@@ -8,3 +8,4 @@ _LoginGui_root.mainloop()
 
 _ingelogde_gebruiker = _LoginGui_class.gebruiker
 print(_ingelogde_gebruiker.get_gebruikersnaam())
+
