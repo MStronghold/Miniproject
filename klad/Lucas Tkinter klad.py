@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter.messagebox as bericht
+from Toegangskaarten import KaartDatabase
 from klad import API
 import uuid
 
@@ -9,40 +10,29 @@ root = Tk()
 
 class startscherm:
 
+    def code_checken(self):
+        self.label_1 = Label(root, text="Voer Uw toegangscode in:")
+        self.entry_1 = Entry(root)
 
-    def klik(selfs):
-        print("klikken werkt!")
+        self.label_1.pack(side=TOP)
+        self.entry_1.pack(side=TOP)
 
-    def film_checken(self):
+        self.button_1 = Button(root, text="Voer in", command=self.klik)
+        self.button_1.pack(side=TOP, pady=4)
 
-        if self.knop_drukken == 0:
-            self.label_1 = Label(root, text="Voer een titel in:")
-            self.entry_1 = Entry(root)
+    def klik(self):
+        Film = self.entry_1.get()
 
-            self.label_1.pack(side=TOP)
-            self.entry_1.pack(side=TOP)
+        Info = API.APIrequest(Film)
 
-            self.button_1 = Button(root, text="Zoeken", command=self.filminvoeren)
-            self.button_1.pack(side=TOP, pady=4)
-
-            self.knop_drukken += 1
-
-    def filminvoeren(self):
-        filmzoeken = self.entry_1.get()
-
-        film = API.APIrequest(filmzoeken)
-
-        if film == False:
-            bericht.showinfo("Film info", "Dit is geen bestaande film.")
-        elif film == True:
-            print(API.APIrequest('robin hood'))
-
+        if Info == False:
+            bericht.showinfo("Toegangscode info", "Dit is geen bestaande toegangscode.")
+        else:
+            bericht.showinfo(Info)
 
     def __init__(self, master):
         frame = Frame(master)
         frame.pack()
-
-        self.knop_drukken = 0
 
         menu = Menu(root)
         root.config(menu=menu)
@@ -62,7 +52,9 @@ class startscherm:
 
         toolbar = Frame(root, bg="#A5110D")
 
-        bekijkButton = Button(toolbar, text="Film bekijken", command=self.film_checken)
+        bestelButton = Button(toolbar, text="Film bestellen", command=self.klik)
+        bestelButton.pack(side=LEFT, padx=5, pady=10)
+        bekijkButton = Button(toolbar, text="Film bekijken", command=self.code_checken)
         bekijkButton.pack(side=LEFT, padx=5, pady=10)
 
         toolbar.pack(side=TOP, fill=X)
@@ -82,8 +74,3 @@ startscherm(root)
 
 
 root.mainloop()
-
-
-
-
-
