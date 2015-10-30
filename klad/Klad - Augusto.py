@@ -8,7 +8,10 @@ root = Tk()
 
 
 class startscherm:
-    
+
+    def klik(selfs):
+        print("klikken werkt!")
+
     def code_checken(self):
         self.label_1 = Label(root, text="Voer Uw toegangscode in:")
         self.entry_1 = Entry(root)
@@ -16,16 +19,18 @@ class startscherm:
         self.label_1.pack(side=TOP)
         self.entry_1.pack(side=TOP)
 
-        self.button_1 = Button(root, text="Voer in", command=self.klik)
+        self.button_1 = Button(root, text="Voer in", command=self.code_invoeren)
         self.button_1.pack(side=TOP, pady=4)
 
-    def klik(self):
+    def code_invoeren(self):
         toegangscode = self.entry_1.get()
 
         code = KaartDatabase.KaartDatabase.kaart_opvragen(toegangscode)
 
         if code == False:
             bericht.showinfo("Toegangscode info", "Dit is geen bestaande toegangscode.")
+        elif code == True:
+
 
     def __init__(self, master):
         frame = Frame(master)
