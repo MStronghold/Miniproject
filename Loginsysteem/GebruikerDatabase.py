@@ -12,7 +12,10 @@ class GebruikerDatabase:
         try:
             _database_connectie = sqlite3.connect(".\Loginsysteem\Gebruikers.db")
         except sqlite3.OperationalError:
-            _database_connectie = sqlite3.connect("Gebruikers.db")
+            try:
+                _database_connectie = sqlite3.connect("..\Loginsysteem\Gebruikers.db")
+            except sqlite3.OperationalError:
+                _database_connectie = sqlite3.connect("Gebruikers.db")
 
         _cursor = _database_connectie.cursor()
 

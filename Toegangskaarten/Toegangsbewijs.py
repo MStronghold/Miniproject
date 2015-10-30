@@ -1,5 +1,6 @@
 import uuid
 import datetime
+import qrcode as _qrcode
 
 class Toegangsbewijs:
     @classmethod
@@ -50,6 +51,27 @@ class Toegangsbewijs:
         self.__gebruiker_id = gebruiker_id
         self.__film_id = film_id
         self.__starttijd = starttijd
+
+    def genereer_qr(self, path=""):
+        """
+        :param path: optioneel, het pad waar de QR afbeelding opgeslagen zal worden.
+        :return: Als path niet opgegeven is: pil.PilImage object
+                 Als path opgegeven is: True als de afbeelding successvol is opgeslagen.
+                                        False als er iets fout gegaan is tijdens het opslaan.
+        """
+        _qr = _qrcode.QRCode(version=1, error_correction=_qrcode.ERROR_CORRECT_M)
+        _qr.add_data(str(self.get_toegangscode()))
+        _qr.make()
+        _qr_img = _qr.make_image()
+
+        if path is "":
+            return _qr_img
+        else:
+            try:
+                _qr_img.save(path)
+                return True
+            except:
+                return False
 
     def get_toegangscode(self):
         return self.__toegangscode
