@@ -3,10 +3,15 @@ from tkinter import *
 
 from API import API
 
-toor = Tk()
+class StartScherm(Frame):
 
-
-class StartScherm:
+    @classmethod
+    def open_interface(cls, gebruiker):
+        root = Tk()
+        frame = Frame(root)
+        frame.pack()
+        lf = cls(root, gebruiker)
+        return [root, lf]
 
     # ***** Kijken of klikken werkt *****
 
@@ -18,20 +23,20 @@ class StartScherm:
             for i in verwijderdregels:
                 i.destroy()
         except:
-            print("dd")
+            print("")
 
     # ***** Film invoer deel ******
 
     def film_checken(self):
 
         if self.knop_drukken == 0:
-            self.label_1 = Label(toor, text="Voer een titel in:")
-            self.entry_1 = Entry(toor)
+            self.label_1 = Label(self._master, text="Voer een titel in:")
+            self.entry_1 = Entry(self._master)
 
             self.label_1.pack(side=TOP)
             self.entry_1.pack(side=TOP)
 
-            self.button_1 = Button(toor, text="Zoeken", command=self.invoeren)
+            self.button_1 = Button(self._master, text="Zoeken", command=self.invoeren)
             self.button_1.pack(side=TOP, pady=4)
 
             self.knop_drukken += 1
@@ -47,21 +52,26 @@ class StartScherm:
             bericht.showerror("Film info", "Dit is geen bestaande film.")
         else:
             for regel in info.items():
-                informatie = Label(toor, text=regel, bg="white")
+                informatie = Label(self._master, text=regel, bg="white")
                 informatie.pack(anchor=W)
                 verwijderdregels.append(informatie)
 
 
     # ***** Hoofdpagina *****
 
-    def __init__(self, master):
-        frame = Frame(master)
-        frame.pack()
+    def __init__(self, master, gebruiker):
+        super().__init__(master)
+        self._master = master
+        self._gebruiker = gebruiker
+
+        self.photo = PhotoImage(file=".\MainInterface\Studio100.png")
+        self.label = Label(self._master, image=self.photo)
+        self.label.pack(fill=X)
 
         self.knop_drukken = 0
 
-        menu = Menu(toor)
-        toor.config(menu=menu)
+        menu = Menu(self._master)
+        self._master.config(menu=menu)
 
         # ***** Main Menu *****
 
@@ -73,7 +83,7 @@ class StartScherm:
 
         # ***** Toolbar *****
 
-        toolbar = Frame(toor, bg="#A5110D")
+        toolbar = Frame(self._master, bg="#A5110D")
 
         bekijkbutton = Button(toolbar, text="Film bekijken", command=self.film_checken)
         bekijkbutton.pack(side=LEFT, padx=5, pady=10)
@@ -82,13 +92,5 @@ class StartScherm:
 
         # ***** Status Bar *****
 
-        self.status = Label(toor, text="Statusbar...", bd=1, relief=SUNKEN, anchor=W)
+        self.status = Label(self._master, text="Statusbar...", bd=1, relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
-
-    photo = PhotoImage(file="Studio100.png")
-    label = Label(toor, image=photo)
-    label.pack(fill=X)
-
-StartScherm(toor)
-
-toor.mainloop()
