@@ -24,12 +24,12 @@ class startscherm:
             self.label_1.pack(side=TOP)
             self.entry_1.pack(side=TOP)
 
-            self.button_1 = Button(root, text="Zoeken", command=self.filminvoeren)
+            self.button_1 = Button(root, text="Zoeken", command=self.invoeren)
             self.button_1.pack(side=TOP, pady=4)
 
             self.knop_drukken += 1
 
-    def filminvoeren(self):
+    def invoeren(self):
         film = self.entry_1.get()
 
         info = API.APIrequest(film)
