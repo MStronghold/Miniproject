@@ -2,6 +2,10 @@ import uuid
 import datetime
 import qrcode as _qrcode
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
 
 class Toegangsbewijs:
     @classmethod

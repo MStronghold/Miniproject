@@ -2,6 +2,10 @@ import sqlite3
 import uuid
 from Loginsysteem import BezoekerInfo as _BezoekerInfo
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
 
 class GebruikerDatabase:
     @classmethod

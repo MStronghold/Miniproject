@@ -3,6 +3,11 @@ from Toegangskaarten import Toegangsbewijs
 from Loginsysteem import BezoekerInfo
 import datetime
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
+
 # kaart_opslaan testen
 
 gebruiker = BezoekerInfo.BezoekerInfo.nieuw_bezoeker_rnd("Gebruiker1", "Email1", "Wachtwoord1")

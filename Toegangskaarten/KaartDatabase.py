@@ -4,6 +4,10 @@ import datetime
 import pickle
 from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
 
+"""
+    - Johan de Graaf, 30-10-2015
+"""
+
 
 class KaartDatabase:
     @classmethod

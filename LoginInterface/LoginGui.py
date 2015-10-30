@@ -3,10 +3,20 @@ import tkinter.messagebox as bericht
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
 
+
 class Login_Frame(Frame):
+
+    @classmethod
+    def open_interface(cls):
+        root = Tk()
+        lf = cls(root)
+        frame = Frame(root, width=250)
+        frame.pack()
+        return [root, lf]
 
     def __init__(self, master):
         super().__init__(master)
+        self._master = master
 
         # ***** Tekst *****
         self.label_1 = Label(self, text="Gebruikersnaam: ")
@@ -47,10 +57,9 @@ class Login_Frame(Frame):
         # ***** Ophalen van gegevens tekstvakken *****
         gebruikersnaam = self.entry_1.get()
         wachtwoord = self.entry_2.get()
-        email = self.entry_3.get()
 
         # ***** Gegevens opvragen uit database *****
-        gebruiker = Login.Login.gebruiker_opvragen(gebruikersnaam)
+        self.gebruiker = Login.Login.gebruiker_opvragen(gebruikersnaam)
 
         '''
         Als de gebruiker niet bestaat geeft hij een foutmelding en stopt de functie.
@@ -58,12 +67,12 @@ class Login_Frame(Frame):
         Als dit het zelfde is ben je ingelogd anders geeft hij een foutmelding.
         '''
 
-        if gebruiker == False:
+        if self.gebruiker == False:
             bericht.showerror("Login", "Dit is geen bestaande gebruiker.")
         else:
-            wachtwoord_database = gebruiker.get_wachtwoord()
-            if gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
-                bericht.showinfo("Login", "INGELOGD!")
+            wachtwoord_database = self.gebruiker.get_wachtwoord()
+            if self.gebruiker.get_gebruikersnaam() == gebruikersnaam and wachtwoord_database == wachtwoord:
+                self._master.destroy()
             elif wachtwoord_database != wachtwoord:
                 bericht.showerror("Login", "Wachtwoord is onjuist.")
             else:
@@ -95,9 +104,3 @@ class Login_Frame(Frame):
                 bericht.showerror("Login", "E-mail is al in gebruik.")
             elif login_status == 3:
                 bericht.showinfo("Login", "Gebruiker succesvol aangemeld.")
-
-root = Tk()
-lf = Login_Frame(root)
-frame = Frame(root, width=250)
-frame.pack()
-root.mainloop()
