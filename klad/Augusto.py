@@ -3,7 +3,7 @@ import tkinter.messagebox as bericht
 from klad import API
 
 
-root = Tk()
+toor = Tk()
 
 
 class StartScherm:
@@ -18,13 +18,13 @@ class StartScherm:
     def film_checken(self):
 
         if self.knop_drukken == 0:
-            self.label_1 = Label(root, text="Voer een titel in:")
-            self.entry_1 = Entry(root)
+            self.label_1 = Label(toor, text="Voer een titel in:")
+            self.entry_1 = Entry(toor)
 
             self.label_1.pack(side=TOP)
             self.entry_1.pack(side=TOP)
 
-            self.button_1 = Button(root, text="Zoeken", command=self.invoeren)
+            self.button_1 = Button(toor, text="Zoeken", command=self.invoeren)
             self.button_1.pack(side=TOP, pady=4)
 
             self.knop_drukken += 1
@@ -39,7 +39,7 @@ class StartScherm:
         else:
             print(info)
             for regel in info.items():
-                informatie = Label(root, text=regel, bg="white")
+                informatie = Label(toor, text=regel, bg="white")
                 informatie.pack(anchor=W)
 
     # ***** Hoofdpagina *****
@@ -50,8 +50,8 @@ class StartScherm:
 
         self.knop_drukken = 0
 
-        menu = Menu(root)
-        root.config(menu=menu)
+        menu = Menu(toor)
+        toor.config(menu=menu)
 
         # ***** Main Menu *****
 
@@ -63,7 +63,7 @@ class StartScherm:
 
         # ***** Toolbar *****
 
-        toolbar = Frame(root, bg="#A5110D")
+        toolbar = Frame(toor, bg="#A5110D")
 
         bekijkbutton = Button(toolbar, text="Film bekijken", command=self.film_checken)
         bekijkbutton.pack(side=LEFT, padx=5, pady=10)
@@ -72,13 +72,13 @@ class StartScherm:
 
         # ***** Status Bar *****
 
-        self.status = Label(root, text="Statusbar...", bd=1, relief=SUNKEN, anchor=W)
+        self.status = Label(toor, text="Statusbar...", bd=1, relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
     photo = PhotoImage(file="Studio100.png")
-    label = Label(root, image=photo)
+    label = Label(toor, image=photo)
     label.pack(fill=X)
 
-StartScherm(root)
+StartScherm(toor)
 
-root.mainloop()
+toor.mainloop()
