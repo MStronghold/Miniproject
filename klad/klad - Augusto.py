@@ -2,6 +2,9 @@ from tkinter import *
 import tkinter.messagebox as bericht
 from klad import API
 
+toor = Tk()
+
+
 class StartScherm:
 
     # ***** Kijken of klikken werkt *****
@@ -9,7 +12,7 @@ class StartScherm:
     def klik(self):
         print("klikken werkt!")
 
-    # ***** Film invoer deel *****
+    # ***** Film invoer deel ******
 
     def film_checken(self):
 
@@ -74,3 +77,7 @@ class StartScherm:
     photo = PhotoImage(file="Studio100.png")
     label = Label(toor, image=photo)
     label.pack(fill=X)
+
+StartScherm(toor)
+
+toor.mainloop()
