@@ -24,11 +24,11 @@ class BezoekerInfo:
 
     def __init__(self, bezoeker_id, gebruikersnaam, email, wachtwoord, is_aanbieder=False):
         """
-        :param bezoeker_id: uuid.UUID
-        :param naam:  str
-        :param email:  str
-        :param wachtwoord: str
-        :param is_aanbieder: bool
+        :param bezoeker_id: uuid.UUID, dit moet uniek zijn voor elke gebruiker.
+        :param naam:  str, gebruikersnaam.
+        :param email:  str, emailadres.
+        :param wachtwoord: str, wachtwoord.
+        :param is_aanbieder: bool, geeft aan of de gebruiker een aanbieder is.
         """
 
         if type(bezoeker_id) is not uuid.UUID:
@@ -56,37 +56,37 @@ class BezoekerInfo:
 
     def get_bezoeker_id(self):
         """
-        :return: uuid.UUID
+        :return: uuid.UUID, haal het unieke id van de bezoeker op.
         """
         return self.__bezoeker_id
 
     def get_gebruikersnaam(self):
         """
-        :return: string
+        :return: string, haal de gebruikersnaam van de bezoeker op.
         """
         return self.__gebruikersnaam
 
     def get_email(self):
         """
-        :return: string
+        :return: string, haal het emailadres van de bezoeker op
         """
         return self.__email
 
     def get_wachtwoord(self):
         """
-        :return: string
+        :return: string, haal het wachtwoord van de bezoeker op.
         """
         return self.__wachtwoord
 
     def get_is_aanbieder(self):
         """
-        :return: string
+        :return: bool, is de bezoeker een aanbieder?
         """
         return self.__is_aanbieder
 
     def set_gebruikersnaam(self, gebruikersnaam):
         """
-        :param gebruikersnaam: string
+        :param gebruikersnaam: string, verander de gebruikersnaam van de bezoeker.
         """
         if type(gebruikersnaam) is not str:
             raise TypeError("gebruikersnaam moet een str zijn.")
@@ -95,7 +95,7 @@ class BezoekerInfo:
 
     def set_email(self, email):
         """
-        :param email: string
+        :param email: string, verander het emailadres van de bezoeker.
         """
         if type(email) is not str:
             raise TypeError("email moet een str zijn.")
@@ -104,7 +104,7 @@ class BezoekerInfo:
 
     def set_wachtwoord(self, wachtwoord):
         """
-        :param wachtwoord: string
+        :param wachtwoord: string, verander het wachtwoord van de bezoeker.
         """
         if type(wachtwoord) is not str:
             raise TypeError("wachtwoord moet een str zijn.")
@@ -113,7 +113,7 @@ class BezoekerInfo:
 
     def set_is_aanbieder(self, is_aanbieder):
         """
-        :param is_aanbieder: bool
+        :param is_aanbieder: bool, verander of de bezoeker een aanbieder is.
         """
         if type(is_aanbieder) is not bool:
             raise TypeError("is_aanbieder moet een bool zijn.")
