@@ -21,5 +21,3 @@ Programma is ontworpen en getest in Python 3.4
 Project maakt gebruik van de Open Movie Data Base API, te vinden op:
 
 http://www.omdbapi.com/
-
-
