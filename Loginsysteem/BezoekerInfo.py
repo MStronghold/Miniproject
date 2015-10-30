@@ -4,17 +4,31 @@ import uuid
 class BezoekerInfo:
     @classmethod
     def genereer_random_bezoeker_id(cls):
-        """ Genereer een random uuid. (uuid.UUID object) """
+        """
+        Genereer een random uuid.
+        :return: uuid.UUID
+        """
         return uuid.uuid4()
 
     @classmethod
     def string_to_uuid(cls, str_uuid):
-        """ Converteer een string naar een uuid.UUID object. """
+        """
+        Converteer een string naar een uuid.UUID object.
+        :param str_uuid: str, het unieke bezoekers ID.
+        :return: uuid.UUID
+        """
         return uuid.UUID(str_uuid)
 
     @classmethod
     def nieuw_bezoeker_rnd(cls, gebruikersnaam, email, wachtwoord, is_aanbieder=False):
-        """ Maak een BezoekerInfo object met een random uuid. """
+        """
+        Maak een BezoekerInfo object met een random uuid.
+        :param gebruikersnaam: str, de gebruikersnaam van de bezoeker.
+        :param email: str, het emailadres van de bezoeker.
+        :param wachtwoord: str, het wachtwoord van de bezoeker.
+        :param is_aanbieder: bool, geeft aan of de bezoeker een aanbieder is.
+        :return: BezoekerInfo
+        """
         return cls(cls.genereer_random_bezoeker_id(), gebruikersnaam, email, wachtwoord, is_aanbieder)
 
     @classmethod
@@ -24,11 +38,12 @@ class BezoekerInfo:
 
     def __init__(self, bezoeker_id, gebruikersnaam, email, wachtwoord, is_aanbieder=False):
         """
-        :param bezoeker_id: uuid.UUID, dit moet uniek zijn voor elke gebruiker.
-        :param naam:  str, gebruikersnaam.
-        :param email:  str, emailadres.
-        :param wachtwoord: str, wachtwoord.
+        :param bezoeker_id: uuid.UUID, dit moet uniek zijn voor elke bezoeker.
+        :param gebruikersnaam: str, de gebruikersnaam van de bezoeker.
+        :param email: str, het emailadres van de bezoeker.
+        :param wachtwoord: str, het wachtwoord van de bezoeker.
         :param is_aanbieder: bool, geeft aan of de gebruiker een aanbieder is.
+        :return: BezoekerInfo
         """
 
         if type(bezoeker_id) is not uuid.UUID:
@@ -50,7 +65,7 @@ class BezoekerInfo:
 
     def to_dict(self):
         """
-        :return: Zet het BezoekerInfo object om naar een dictionary.
+        :return: dict, Zet het BezoekerInfo object om naar een dictionary.
         """
         return {"ID" : self.get_bezoeker_id(), "gebruikersnaam" : self.get_gebruikersnaam(), "email" : self.get_email(), "wachtwoord" : self.get_wachtwoord(), "isaanbieder" : self.get_is_aanbieder()}
 
