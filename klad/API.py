@@ -1,6 +1,14 @@
 """
 Volledige API afhandeling.
 
+timeclocked at:
+wall time: 4.9084945067253066e-06
+ping is: 0.03187353219280745
+Process time: 0.03253484027089535
+
+API source:
+http://www.omdbapi.com/
+
 -Lucas, 29-10-15
 
 """
@@ -32,6 +40,7 @@ def APIrequest(x):
 
     #verbindt met API en extraheert gegevens, exceptions ingebouwd voor eventueel verbindingsverlies,
     # server- en client-side
+    data = ''
     try:
         with urlopen(url) as f:
             data = f.read().decode()
@@ -53,8 +62,8 @@ def APIrequest(x):
     return gegevens
 
 
-
-#handmatige input(debug)
-APIrequest('robin hood')
+#
+# handmatige input(debug)
+# print(APIrequest('robin hood'))
 
 
