@@ -12,9 +12,8 @@
 **Dependencies: qrcode**
 
 Doe het volgende om qrcode te installeren:
-
-*1. Open de command prompt als administrator.*
-*2. Typ het volgende command in en druk op enter: pip install qrcode*
+* *Open de command prompt als administrator.*
+* *Typ het volgende command in en druk op enter: pip install qrcode*
 
 
 **Programma is ontworpen en getest in Python 3.4**
