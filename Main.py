@@ -1,4 +1,4 @@
-from klad import LoginGui
+from LoginInterface import LoginGui
 
 # Open LoginGui
 _LoginGui_lst = LoginGui.Login_Frame.open_interface()
