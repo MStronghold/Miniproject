@@ -14,8 +14,11 @@ class StartScherm:
         print("gff")
 
     def leegmaken(self):
-        for i in verwijderdregels:
-            i.destroy()
+        try:
+            for i in verwijderdregels:
+                i.destroy()
+        except:
+            print("dd")
 
     # ***** Film invoer deel ******
 
