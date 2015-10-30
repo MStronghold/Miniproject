@@ -5,6 +5,7 @@ import pickle
 from Toegangskaarten import Toegangsbewijs as _Toegangsbewijs
 
 
+
 class KaartDatabase:
     @classmethod
     def __verbind_met_database(cls):
@@ -55,8 +56,8 @@ class KaartDatabase:
         :return: datetime object of False als het niet gelukt is.
         """
 
-        if type(datetime_str) is not datetime.datetime:
-            raise TypeError("datetime_str moet een string zijn.")
+        if type(datetime_str) is not str:
+            raise TypeError("datetime_str moet string zijn zijn.")
 
         _datetime_bin_str_list = datetime_str.split("///")
         _datetime_bin = bytearray()
@@ -143,7 +144,7 @@ class KaartDatabase:
         :param gebruiker_id: uuid.UUID object of string met het UUID.
         :return: List met toegangskaarten bijbehorende aan het gebruiker_id, False als niets gevonden is.
         """
-        if type(gebruiker_id) is not uuid.UUID or type(gebruiker_id) is not str:
+        if type(gebruiker_id) is not uuid.UUID and type(gebruiker_id) is not str:
             raise TypeError("gebruiker_id moet een uuid.UUID object zijn of een string.")
 
         _gebruiker_id = str(gebruiker_id)
@@ -187,7 +188,7 @@ class KaartDatabase:
         :param toegangscode: uuid.UUID object of string met het UUID.
         :return: True als de toegangskaart verwijderd is, False als de toegangskaart niet gevonden kon worden.
         """
-        if type(toegangscode) is not uuid.UUID or type(toegangscode) is not str:
+        if type(toegangscode) is not uuid.UUID and type(toegangscode) is not str:
             raise TypeError("toegangscode moet een uuid.UUID object zijn of een string.")
 
         _toegangscode = str(toegangscode)
