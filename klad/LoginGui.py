@@ -18,7 +18,7 @@ class Login_Frame(Frame):
         self.entry_2 = Entry(self, show="*")
         self.entry_3 = Entry(self)
 
-        # ***** De opmaak van kolommen *****
+        # ***** De opmaak van de input velden *****
         self.label_1.grid(row=0, sticky=E)
         self.label_2.grid(row=1, sticky=E)
         self.label_3.grid(row=2, sticky=E)
@@ -31,16 +31,14 @@ class Login_Frame(Frame):
         def checkbox():
             self.checked = not self.checked
 
-        # ***** Checkbox + opmaak van kolommen *****
+        # ***** Checkbox en login knoppen *****
         self.checkbox_1 = Checkbutton(self, text="Aanbieder", command = checkbox)
-        self.checkbox_1.grid(row=3,columnspan=1)
-
-        # ***** Registratie button + opmaak van kolommen *****
         self.button_1 = Button(self, text="Registreren", command = self.registreren)
-        self.button_1.grid(row=4)
-
-        # ***** Aanmeld button + opmaak van kolommen *****
         self.button_2 = Button(self, text="Aanmelden", command = self.aanmelden)
+
+        # ***** De opmaak van de checkbox en login knoppen *****
+        self.checkbox_1.grid(row=3,columnspan=1)
+        self.button_1.grid(row=4)
         self.button_2.grid(row=4, column=1)
 
         self.pack()
