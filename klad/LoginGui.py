@@ -3,7 +3,7 @@ import tkinter.messagebox as bericht
 from Loginsysteem import BezoekerInfo
 from Loginsysteem import Login
 
-class Login_Frame(Frame):
+class Login(Frame):
 
     def __init__(self, master):
         super().__init__(master)
@@ -79,7 +79,6 @@ class Login_Frame(Frame):
                 bericht.showinfo("Login info", "Gebruiker succesvol aangemeld.")
 
 root = Tk()
-lf = Login_Frame(root)
+lf = Login(root)
 frame = Frame(root, width=250)
-frame.pack()
 root.mainloop()

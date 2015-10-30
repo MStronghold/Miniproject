@@ -12,7 +12,10 @@ class GebruikerDatabase:
         try:
             _database_connectie = sqlite3.connect(".\Loginsysteem\Gebruikers.db")
         except sqlite3.OperationalError:
-            _database_connectie = sqlite3.connect("Gebruikers.db")
+            try:
+                _database_connectie = sqlite3.connect("..\Loginsysteem\Gebruikers.db")
+            except sqlite3.OperationalError:
+                _database_connectie = sqlite3.connect("Gebruikers.db")
 
         _cursor = _database_connectie.cursor()
 
@@ -38,20 +41,17 @@ class GebruikerDatabase:
         if cls.gebruiker_opvragen(_id):
             cls.gebruiker_verwijderen(_id, _type="ID")
 
-        _query = "INSERT INTO gebruikers (ID,gebruikersnaam,email,wachtwoord, isaanbieder) VALUES ('" + _id + "','" + _gebruikersnaam + "','" + _email + "','" + _wachtwoord + "','" + _is_aanbieder + "')"
+        _query = "INSERT INTO gebruikers (ID,gebruikersnaam,email,wachtwoord,isaanbieder) VALUES ('" + _id + "','" + _gebruikersnaam + "','" + _email + "','" + _wachtwoord + "','" + _is_aanbieder + "')"
         _database_connectie = cls.__verbind_met_database()
 
-        _gelukt = None
         try:
             _database_connectie.cursor().execute(_query)
-            _gelukt = True
-        except:
-            _gelukt = False
+            return True
+        except sqlite3.OperationalError:
+            return False
         finally:
             _database_connectie.commit()
             _database_connectie.close()
-
-        return _gelukt
 
     @classmethod
     def gebruiker_opvragen(cls, id):
@@ -64,7 +64,10 @@ class GebruikerDatabase:
         _id = str(id)
         for row in _database_connectie.cursor().execute(_query):
             if row[0] == _id or row[1] == _id or row[2] == _id:
-                return _BezoekerInfo.BezoekerInfo.nieuw_bezoeker_str(row[0], row[1], row[2], row[3], bool(int(row[4])))
+                _b = _BezoekerInfo.BezoekerInfo.nieuw_bezoeker_str(row[0], row[1], row[2], row[3], bool(int(row[4])))
+                _database_connectie.close()
+                return _b
+        _database_connectie.close()
         return False
 
     @classmethod
